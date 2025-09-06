@@ -1,5 +1,6 @@
 docker-config/mariadb/data/sys
 docker-config/mariadb/data/mysql
+docker-config/mariadb/data/development
 docker-config/mariadb/data/ib_logfile0
 docker-config/mariadb/data/aria*
 docker-config/mariadb/data/ib*
