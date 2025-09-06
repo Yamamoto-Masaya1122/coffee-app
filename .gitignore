@@ -1,0 +1,9 @@
+docker-config/mariadb/data/sys
+docker-config/mariadb/data/mysql
+docker-config/mariadb/data/ib_logfile0
+docker-config/mariadb/data/aria*
+docker-config/mariadb/data/ib*
+docker-config/mariadb/data/tc.log
+docker-config/mariadb/data/undo*
+docker-config/mariadb/data/ddl_recovery.log
+docker-config/mariadb/data/.my-healthcheck.cnf
