@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,5 +28,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/sample', function () {
     return Inertia::render('Sample');
 })->name('sample');
+
+Route::get('/home', [ShopController::class, 'index'])->name('shop.index');
 
 require __DIR__ . '/auth.php';
