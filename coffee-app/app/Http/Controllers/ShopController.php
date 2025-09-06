@@ -19,7 +19,6 @@ class ShopController extends Controller
             ->take(5)
             ->get();
 
-        dd($newReviews);
         return Inertia::render('Home', [
             'shops' => $shops,
             'newReviews' => $newReviews,
