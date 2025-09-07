@@ -1,6 +1,6 @@
 import MainLayout from '@/Layouts/MainLayout';
-import { Box, Heading, Image, Text, HStack } from '@chakra-ui/react';
-import { StarIcon } from '@chakra-ui/icons';
+import { Box, Heading, Image, Text } from '@chakra-ui/react';
+import ReviewList from '@/Components/Organisms/ReviewList';
 
 const Detail = (props) => {
   return (
@@ -31,32 +31,7 @@ const Detail = (props) => {
             {props.reviews.length === 0 && (
               <Text>レビューはまだありません</Text>
             )}
-            {props.reviews.map((review) => (
-              <Box
-                key={review.id}
-                p={4}
-                borderWidth={'1px'}
-                borderRadius={'lg'}
-                overflow={'hidden'}
-                boxShadow={'lg'}
-                mb={4}
-              >
-                <Text>{review.comment}</Text>
-                <Text mt={2} textAlign={'right'} fontSize={'sm'}>
-                  {review.user.name}
-                </Text>
-                <HStack>
-                  {Array(5)
-                    .fill('')
-                    .map((_, i) => (
-                      <StarIcon
-                        key={i}
-                        color={i < review.rating ? 'yellow.500' : 'gray.300'}
-                      />
-                    ))}
-                </HStack>
-              </Box>
-            ))}
+            <ReviewList reviews={props.reviews} />
           </Box>
         </Box>
       </Box>
