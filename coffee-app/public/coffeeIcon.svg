@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">コーヒーレビューアプリ アイコン</title>
+  <desc id="desc">背景透過、文字なし。コーヒーカップと豆、星でレビューを表現したアイコン。</desc>
+  <defs>
+    <linearGradient id="bean" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6B4A3B"/>
+      <stop offset="100%" stop-color="#3E2A21"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#CFB27F"/>
+      <stop offset="100%" stop-color="#A98558"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#000" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <!-- Bean shape -->
+  <g transform="translate(110,96)" filter="url(#shadow)">
+    <ellipse cx="110" cy="140" rx="74" ry="108" fill="url(#bean)"/>
+    <path d="M110 44 q-24 32 0 64 q24 32 0 64" fill="none" stroke="#EED9B9" stroke-width="10" stroke-linecap="round"/>
+    <!-- cup outline wrapping right side -->
+    <path d="M180 98 h86 a42 42 0 1 1 0 84" fill="none" stroke="#4E342E" stroke-width="14" stroke-linecap="round"/>
+    <path d="M176 98 v64 a56 56 0 0 1 -56 56 h-28" fill="none" stroke="#4E342E" stroke-width="14" stroke-linecap="round"/>
+    <!-- saucer hint -->
+    <ellipse cx="160" cy="270" rx="130" ry="16" fill="#E8DDD3"/>
+    <!-- steam -->
+    <path d="M150 36 q-12 22 8 40 q-18 18 -2 34" fill="none" stroke="url(#gold)" stroke-width="10" stroke-linecap="round"/>
+  </g>
+
+  <!-- review star -->
+  <g transform="translate(380,360) scale(0.9)">
+    <circle cx="0" cy="0" r="56" fill="#fff" stroke="#4E342E" stroke-width="8"/>
+    <path d="M0,-22 L6,-4 L26,-4 L10,8 L16,26 L0,14 L-16,26 L-10,8 L-26,-4 L-6,-4 Z" fill="url(#gold)"/>
+  </g>
+</svg>
