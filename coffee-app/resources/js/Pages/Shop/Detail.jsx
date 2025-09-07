@@ -1,7 +1,7 @@
 import MainLayout from '@/Layouts/MainLayout';
-import { Box, Heading, Image, Text } from '@chakra-ui/react';
+import { Box, Heading, Image, Text, Button, Link } from '@chakra-ui/react';
 import ReviewList from '@/Components/Organisms/ReviewList';
-
+import { SmallAddIcon } from '@chakra-ui/icons';
 const Detail = (props) => {
   return (
     <>
@@ -24,6 +24,14 @@ const Detail = (props) => {
           <Heading as="h3" size={'lg'} mb={4}>
             レビュー
           </Heading>
+          <Box>
+            <Link href={`/review/create/shop/${props.shop.id}`}>
+              <Button my={4}>
+                <SmallAddIcon />
+                レビューを書く
+              </Button>
+            </Link>
+          </Box>
           <Box>
             {props.reviews > 0 && <Box mb={2}>({props.reviews.length})</Box>}
           </Box>
