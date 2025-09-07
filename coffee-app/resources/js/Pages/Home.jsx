@@ -1,4 +1,12 @@
-import { Box, Heading, VStack, HStack, Image, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  VStack,
+  HStack,
+  Image,
+  Text,
+  Link,
+} from '@chakra-ui/react';
 import React from 'react';
 import { StarIcon } from '@chakra-ui/icons';
 import MainLayout from '@/Layouts/MainLayout';
@@ -12,29 +20,35 @@ const Home = (props) => {
         </Heading>
         <VStack spacing={4} align="stretch">
           {props.shops.map((shop) => (
-            <Box
+            <Link
+              href={`/shop/${shop.id}`}
               key={shop.id}
-              p={4}
-              borderWidth={'1px'}
-              borderRadius={'lg'}
-              overflow={'hidden'}
-              boxShadow={'lg'}
+              _hover={{ color: 'gray.500' }}
             >
-              <HStack spacing={4}>
-                <Image
-                  boxSize="100px"
-                  objectFit="cover"
-                  src="https://placehold.jp/100x100.png"
-                  alt={shop.name}
-                />
-                <VStack align={'start'}>
-                  <Heading as="h3" size="md">
-                    {shop.name}
-                  </Heading>
-                  <Text>{shop.description}</Text>
-                </VStack>
-              </HStack>
-            </Box>
+              <Box
+                key={shop.id}
+                p={4}
+                borderWidth={'1px'}
+                borderRadius={'lg'}
+                overflow={'hidden'}
+                boxShadow={'lg'}
+              >
+                <HStack spacing={4}>
+                  <Image
+                    boxSize="100px"
+                    objectFit="cover"
+                    src="https://placehold.jp/100x100.png"
+                    alt={shop.name}
+                  />
+                  <VStack align={'start'}>
+                    <Heading as="h3" size="md">
+                      {shop.name}
+                    </Heading>
+                    <Text>{shop.description}</Text>
+                  </VStack>
+                </HStack>
+              </Box>
+            </Link>
           ))}
         </VStack>
         <Heading
@@ -77,5 +91,5 @@ const Home = (props) => {
   );
 };
 
-Home.layout = (page) => <MainLayout children={page} />;
+Home.layout = (page) => <MainLayout children={page} title="ショップ一覧" />;
 export default Home;

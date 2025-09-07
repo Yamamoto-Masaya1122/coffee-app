@@ -30,5 +30,6 @@ Route::get('/sample', function () {
 })->name('sample');
 
 Route::get('/home', [ShopController::class, 'index'])->name('shop.index');
+Route::get('/shop/{id}', [ShopController::class, 'detail'])->name('shop.detail');
 
 require __DIR__ . '/auth.php';
