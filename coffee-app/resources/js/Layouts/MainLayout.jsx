@@ -14,7 +14,7 @@ import {
 import React from 'react';
 import { HamburgerIcon, SettingsIcon } from '@chakra-ui/icons';
 
-const MainLayout = ({ children }) => {
+const MainLayout = ({ children, title }) => {
   return (
     <>
       <header>
@@ -33,7 +33,11 @@ const MainLayout = ({ children }) => {
                 href="/home"
                 _hover={{ color: 'gray.500' }}
               >
-                <Image boxSize="60px" src="coffeeIcon.svg" alt="CoffeeApp" />
+                <Image
+                  boxSize="60px"
+                  src="/images/Coffee.svg"
+                  alt="CoffeeApp"
+                />
                 {import.meta.env.VITE_APP_NAME}
               </Link>
             </Heading>
