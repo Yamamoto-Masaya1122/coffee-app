@@ -1,8 +1,31 @@
 import MainLayout from '@/Layouts/MainLayout';
-import { Box, Heading, Image, Text, Button, Link } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  Image,
+  Text,
+  Button,
+  Link,
+  useToast,
+} from '@chakra-ui/react';
 import ReviewList from '@/Components/Organisms/ReviewList';
 import { SmallAddIcon } from '@chakra-ui/icons';
+import { useEffect } from 'react';
 const Detail = (props) => {
+  const toast = useToast();
+
+  useEffect(() => {
+    if (props.status === 'review-created') {
+      toast({
+        position: 'top',
+        title: 'レビューを投稿しました。',
+        description: 'レビューの投稿が完了しました。',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  });
   return (
     <>
       <Box p={4}>

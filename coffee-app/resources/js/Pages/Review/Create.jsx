@@ -15,6 +15,7 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   useDisclosure,
+  Spinner,
 } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
 import MainLayout from '@/Layouts/MainLayout';
@@ -23,6 +24,7 @@ import { router } from '@inertiajs/react';
 const Create = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef();
+  const [loading, setLoading] = useState(false);
   const [hoverRating, setHoverRating] = useState(0);
   const [values, setValues] = useState({
     shop_id: props.shop.id,
@@ -32,6 +34,8 @@ const Create = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+    e.target.disabled = true;
     router.post(route('review.store'), values);
   };
 
@@ -71,8 +75,8 @@ const Create = (props) => {
                 <Button ref={cancelRef} onClick={onClose}>
                   キャンセル
                 </Button>
-                <Button color={'blue'} ml={3} onClick={handleSubmit}>
-                  投稿する
+                <Button colorScheme={'blue'} ml={3} onClick={handleSubmit}>
+                  {loading ? <Spinner /> : '投稿する'}
                 </Button>
               </AlertDialogFooter>
             </AlertDialogContent>

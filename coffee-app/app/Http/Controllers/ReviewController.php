@@ -19,7 +19,13 @@ class ReviewController extends Controller
     {
         $reviewModel = new Review();
         $review = $reviewModel->saveReview($request);
+        if ($review) {
+            $status = 'review-created';
+        }
 
-        return redirect()->route('shop.detail', ['id' => $request->shop_id]);
+        return redirect()->route('shop.detail', [
+            'id' => $request->shop_id,
+            'status' => $status
+        ]);
     }
 }

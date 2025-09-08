@@ -27,12 +27,16 @@ class ShopController extends Controller
 
     public function detail($id)
     {
+        // クエリパラメータからステータスを取得
+        $status = request('status');
+
         $shop = Shop::find($id);
         // レビューを取得
         $reviews = Review::with('user')->where('shop_id', $id)->orderBy('created_at', 'desc')->get();
         return Inertia::render('Shop/Detail', [
             'shop' => $shop,
             'reviews' => $reviews,
+            'status' => $status
         ]);
     }
 }
