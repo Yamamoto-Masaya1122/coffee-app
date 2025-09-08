@@ -8,12 +8,21 @@ import {
   Button,
   Textarea,
   HStack,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
 import MainLayout from '@/Layouts/MainLayout';
 import { router } from '@inertiajs/react';
 
 const Create = (props) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef();
   const [hoverRating, setHoverRating] = useState(0);
   const [values, setValues] = useState({
     shop_id: props.shop.id,
@@ -23,10 +32,6 @@ const Create = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const isSubmit = window.confirm('レビューを投稿しますか？');
-    if (!isSubmit) {
-      return;
-    }
     router.post(route('review.store'), values);
   };
 
@@ -36,6 +41,11 @@ const Create = (props) => {
       ...values,
       [name]: value,
     });
+  };
+
+  const handleCheck = (e) => {
+    e.preventDefault();
+    onOpen();
   };
   return (
     <>
@@ -48,13 +58,33 @@ const Create = (props) => {
         boxShadow={'md'}
         w={{ base: '90%', md: 700 }}
       >
+        <AlertDialog
+          isOpen={isOpen}
+          leastDestructiveRef={cancelRef}
+          onClose={onClose}
+        >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader>最終確認</AlertDialogHeader>
+              <AlertDialogBody>この内容で投稿しますか？</AlertDialogBody>
+              <AlertDialogFooter>
+                <Button ref={cancelRef} onClick={onClose}>
+                  キャンセル
+                </Button>
+                <Button color={'blue'} ml={3} onClick={handleSubmit}>
+                  投稿する
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
         <Heading as="h2" size={'md'} mb={4} color={'blue.900'}>
           レビューを投稿
         </Heading>
         <Text fontSize={'xl'} color={'gray.500'} mb={2}>
           {props.shop.name}
         </Text>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleCheck}>
           <FormControl isRequired mb={4}>
             <FormLabel htmlFor="rating" fontWeight={'bold'}>
               評価
