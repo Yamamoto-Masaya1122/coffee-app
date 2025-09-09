@@ -10,13 +10,58 @@ import {
   MenuButton,
   MenuItem,
   Link,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  VStack,
+  Button,
 } from '@chakra-ui/react';
+import { usePage, Link as InertiaLink } from '@inertiajs/react';
 import React from 'react';
 import { HamburgerIcon, SettingsIcon } from '@chakra-ui/icons';
 
 const MainLayout = ({ children, title }) => {
+  const { auth } = usePage().props;
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = React.useRef();
+
   return (
     <>
+      <Drawer
+        isOpen={isOpen}
+        placement="right"
+        onClose={onClose}
+        finalFocusRef={btnRef}
+        size={{ base: 'xs', md: 'md' }}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>menu</DrawerHeader>
+          <DrawerBody>
+            <VStack>
+              <Link href="#" _hover={{ color: 'gray.500' }}>
+                マイページ
+              </Link>
+              <Link href="#" _hover={{ color: 'gray.500' }}>
+                店舗登録
+              </Link>
+              <InertiaLink
+                href={route('logout')}
+                _hover={{ color: 'gray.500' }}
+                method="post"
+                onClick={onClose}
+              >
+                ログアウト
+              </InertiaLink>
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
       <header>
         <Box bg={'orange.600'}>
           {/* ヘッダー */}
@@ -30,7 +75,7 @@ const MainLayout = ({ children, title }) => {
               <Link
                 display={'flex'}
                 alignItems={'center'}
-                href="/home"
+                href={route('shop.index')}
                 _hover={{ color: 'gray.500' }}
               >
                 <Image
@@ -43,12 +88,40 @@ const MainLayout = ({ children, title }) => {
             </Heading>
             {/* PC表示 */}
             <HStack display={{ base: 'none', md: 'flex' }} color={'white'}>
-              <Link href="#" _hover={{ color: 'gray.500' }}>
-                マイページ
-              </Link>
-              <Link href="#" _hover={{ color: 'gray.500' }}>
-                店舗登録
-              </Link>
+              {auth.user ? (
+                <Box>
+                  <Text
+                    onClick={onOpen}
+                    cursor={'pointer'}
+                    ref={btnRef}
+                    display={'flex'}
+                    alignItems={'center'}
+                  >
+                    {auth.user.name}さん
+                    <SettingsIcon mx={1} />
+                  </Text>
+                </Box>
+              ) : (
+                <>
+                  <Box>
+                    <Link href={route('login')}>
+                      <Button
+                        colorScheme={'white'}
+                        variant={'outline'}
+                        _hover={{ bg: 'gray.500' }}
+                      >
+                        ログイン
+                      </Button>
+                    </Link>
+                  </Box>
+                  <Box>
+                    <Link href={route('register')}>
+                      {' '}
+                      <Button colorScheme={'blue'}>新規登録</Button>
+                    </Link>
+                  </Box>
+                </>
+              )}
             </HStack>
             {/* SP表示 */}
             <Box
