@@ -44,20 +44,35 @@ const MainLayout = ({ children, title }) => {
           <DrawerHeader>menu</DrawerHeader>
           <DrawerBody>
             <VStack>
-              <Link href="#" _hover={{ color: 'gray.500' }}>
-                マイページ
-              </Link>
-              <Link href="#" _hover={{ color: 'gray.500' }}>
-                店舗登録
-              </Link>
-              <InertiaLink
-                href={route('logout')}
-                _hover={{ color: 'gray.500' }}
-                method="post"
-                onClick={onClose}
-              >
-                ログアウト
-              </InertiaLink>
+              {auth.user ? (
+                <Box display={'block'}>
+                  <VStack>
+                    <Link href="#" _hover={{ color: 'gray.500' }}>
+                      マイページ
+                    </Link>
+                    <Link href="#" _hover={{ color: 'gray.500' }}>
+                      店舗登録
+                    </Link>
+                    <InertiaLink
+                      href={route('logout')}
+                      _hover={{ color: 'gray.500' }}
+                      method="post"
+                      onClick={onClose}
+                    >
+                      ログアウト
+                    </InertiaLink>
+                  </VStack>
+                </Box>
+              ) : (
+                <>
+                  <Box>
+                    <Link href={route('login')}>ログイン</Link>
+                  </Box>
+                  <Box>
+                    <Link href={route('register')}>新規登録</Link>
+                  </Box>
+                </>
+              )}
             </VStack>
           </DrawerBody>
         </DrawerContent>
@@ -116,7 +131,6 @@ const MainLayout = ({ children, title }) => {
                   </Box>
                   <Box>
                     <Link href={route('register')}>
-                      {' '}
                       <Button colorScheme={'blue'}>新規登録</Button>
                     </Link>
                   </Box>
@@ -129,7 +143,13 @@ const MainLayout = ({ children, title }) => {
               px={{ base: '1', md: 'none' }}
               py={{ base: '2', md: 'none' }}
             >
-              <Menu>
+              <HamburgerIcon
+                ref={btnRef}
+                onClick={onOpen}
+                cursor={'pointer'}
+                fontSize={'xl'}
+              />
+              {/* <Menu>
                 <MenuButton
                   as={IconButton}
                   aria-label="Options"
@@ -141,7 +161,7 @@ const MainLayout = ({ children, title }) => {
                   <MenuItem icon={<SettingsIcon />}>マイページ</MenuItem>
                   <MenuItem>店舗登録</MenuItem>
                 </MenuList>
-              </Menu>
+              </Menu> */}
             </Box>
           </HStack>
         </Box>
