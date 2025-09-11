@@ -24,6 +24,9 @@ Route::get('/sample', function () {
 // 店舗関連
 Route::get('/', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{id}', [ShopController::class, 'detail'])->name('shop.detail');
+Route::middleware('auth')->group(function () {
+    Route::get('/shop/create', [ShopController::class, 'create'])->name('shop.create');
+});
 
 // レビュー関連
 Route::middleware('auth')->group(function () {

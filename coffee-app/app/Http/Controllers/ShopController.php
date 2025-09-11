@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
-use Illuminate\Http\Request;
 use App\Models\Shop;
+use App\Http\Requests\StoreShopRequest;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Nette\Utils\Random;
 
 class ShopController extends Controller
 {
@@ -37,6 +41,72 @@ class ShopController extends Controller
             'shop' => $shop,
             'reviews' => $reviews,
             'status' => $status
+        ]);
+    }
+
+    public function create()
+    {
+        return Inertia::render('Shop/Create');
+    }
+
+    public function store(StoreShopRequest $request)
+    {
+        $user = Auth::user();
+        // ユーザーがログインしていない場合はリダイレクト
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        $status = 'error';
+        //トランザクションを開始
+        DB::beginTransaction();
+        try {
+            //店舗の保存
+            $shopModel = new Shop();
+            $shop = $shopModel->saveShop($request, $user);
+
+            //店舗の画像を保存
+            if ($request->file('images')) {
+                $images = $request->file('images');
+                foreach ($images as $image) {
+                    // 画像の拡張子を取得
+                    $extension = $image->getClientOriginalExtension();
+                    // 乱数を作成
+                    $random = Random::generate(16);
+                    // 画像の名前を生成
+                    $fileName = $shop->image = $shop->id . '_' . $random . '.' . $extension;
+                    $shop->saveImage([
+                        'shop_id' => $shop->id,
+                        'file_name' => $fileName,
+                        'file_path' => 'storage/shop_images/' . $fileName,
+                        'file_type' => $image->getClientMimeType(),
+                        'file_size' => $image->getSize(),
+                        'file_exten' => $extension,
+                        'file_mine' => $image->getClientMimeType(),
+                        'file_original_name' => $image->getClientOriginalName(),
+                        'file_original_path' => $image->getPathname(),
+                    ]);
+                    // 画像の保存
+                    $image->storeAs('public/shop_images', $fileName);
+                }
+            }
+            DB::commit();
+
+            $status = 'shop-created';
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            Log::error($message);
+            DB::rollBack();
+            throw $e;
+        }
+
+        // ステータス
+        if ($shop) {
+            $status = 'shop-created';
+        }
+
+        return redirect()->route('shop.index', [
+            'status' => $status,
         ]);
     }
 }
