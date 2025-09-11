@@ -4,11 +4,6 @@ import {
   HStack,
   Image,
   Text,
-  IconButton,
-  Menu,
-  MenuList,
-  MenuButton,
-  MenuItem,
   Link,
   Drawer,
   DrawerBody,
@@ -50,7 +45,10 @@ const MainLayout = ({ children, title }) => {
                     <Link href="#" _hover={{ color: 'gray.500' }}>
                       マイページ
                     </Link>
-                    <Link href="#" _hover={{ color: 'gray.500' }}>
+                    <Link
+                      href={route('shop.create')}
+                      _hover={{ color: 'gray.500' }}
+                    >
                       店舗登録
                     </Link>
                     <InertiaLink
