@@ -8,6 +8,8 @@ import {
   Input,
   Button,
   Textarea,
+  Text,
+  useToast,
 } from '@chakra-ui/react';
 import { useForm, router } from '@inertiajs/react';
 
@@ -19,10 +21,16 @@ const Create = () => {
     images: [],
   });
 
+  const toast = useToast();
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 3) {
-      alert('画像は3つまでです。');
+      toast({
+        title: '画像は3つまでです。',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
       e.target.value = ''; // 選択をリセット
       return;
     }
@@ -75,6 +83,21 @@ const Create = () => {
         </FormControl>
         <FormControl id="images" mb={4}>
           <FormLabel fontWeight={'bold'}>画像</FormLabel>
+          {/* プレビュー */}
+          <Text mb={2}>プレビュー</Text>
+          {data.images.length > 0 && (
+            <Box display={'flex'} mb={2} bg={'gray.200'}>
+              {data.images.map((image) => (
+                <Box key={image.name} px={2}>
+                  <img
+                    src={URL.createObjectURL(image)}
+                    alt={image.name}
+                    style={{ width: '100px' }}
+                  />
+                </Box>
+              ))}
+            </Box>
+          )}
           <Input
             id="images"
             type="file"
