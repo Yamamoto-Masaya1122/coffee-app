@@ -6,12 +6,24 @@ import {
   Image,
   Text,
   Link,
+  useToast,
 } from '@chakra-ui/react';
 import React from 'react';
 import MainLayout from '@/Layouts/MainLayout';
 import ReviewList from '@/Components/Organisms/ReviewList';
 
 const Home = (props) => {
+  const toast = useToast();
+  if (props.status === 'shop-created') {
+    toast({
+      position: 'top',
+      title: '店舗登録成功',
+      description: '店舗の登録が完了しました。',
+      status: 'success',
+      duration: 9000,
+      isClosable: true,
+    });
+  }
   return (
     <>
       <Box p={4}>

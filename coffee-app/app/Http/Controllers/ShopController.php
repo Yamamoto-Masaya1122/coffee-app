@@ -16,6 +16,8 @@ class ShopController extends Controller
 {
     public function index()
     {
+        // クエリパラメータからステータスを取得
+        $status = request('status');
         // $shops = Shop::all();
         $shops = Shop::with('reviews')->get();
         //新着のレビューを5つ取得
@@ -27,6 +29,7 @@ class ShopController extends Controller
         return Inertia::render('Home', [
             'shops' => $shops,
             'newReviews' => $newReviews,
+            'status' => $status,
         ]);
     }
 
