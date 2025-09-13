@@ -7,6 +7,7 @@ use App\Models\Shop;
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
@@ -18,8 +19,14 @@ class ReviewController extends Controller
 
     public function store(StoreReviewRequest $request)
     {
+        $user = Auth::user();
         $reviewModel = new Review();
-        $review = $reviewModel->saveReview($request);
+        $review = $reviewModel->saveReview([
+            'user_id' => $user->id,
+            'shop_id' => $request->shop_id,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
         if ($review) {
             $status = 'review-created';
         }
