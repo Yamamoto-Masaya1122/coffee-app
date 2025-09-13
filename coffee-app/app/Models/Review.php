@@ -36,4 +36,15 @@ class Review extends Model
 
         return $this;
     }
+
+    public function updateReview($request)
+    {
+        // レビューIDからレビューを取得して更新
+        $review = $this->find($request->review_id);
+        $review->rating = $request->rating;
+        $review->comment = $request->comment;
+        $review->save();
+
+        return $review;
+    }
 }

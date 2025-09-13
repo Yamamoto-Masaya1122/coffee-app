@@ -33,6 +33,9 @@ Route::get('/shop/{id}', [ShopController::class, 'detail'])->name('shop.detail')
 Route::middleware('auth')->group(function () {
     Route::get('/review/create/shop/{id}', [ReviewController::class, 'create'])->name('review.create');
     Route::post('/review/store', [ReviewController::class, 'store'])->name('review.store');
+    Route::get('/review/edit/{id}', [ReviewController::class, 'edit'])->name('review.edit');
+    Route::post('/review/update', [ReviewController::class, 'update'])->name('review.update');
+    Route::delete('/review/destroy/{id}', [ReviewController::class, 'destroy'])->name('review.destroy');
 });
 
 require __DIR__ . '/auth.php';

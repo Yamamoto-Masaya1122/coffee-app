@@ -1,7 +1,7 @@
 import React from 'react';
 import StarRating from '../Atoms/StarRating';
 import UserName from '../Atoms/UserName';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Text, Link, Button } from '@chakra-ui/react';
 
 const ReviewItem = ({ review }) => {
   return (
@@ -15,9 +15,16 @@ const ReviewItem = ({ review }) => {
         boxShadow={'lg'}
         mb={4}
       >
-        <Text>{review.comment}</Text>
+        <Text style={{ whiteSpace: 'pre-wrap' }}>{review.comment}</Text>
         <UserName name={review.user.name} />
         <StarRating rating={review.rating} />
+        <Box mt={3} w={'100%'} display={'flex'} justifyContent={'flex-end'}>
+          <Link href={`/review/edit/${review.id}`}>
+            <Button colorScheme={'blue'} fontSize={'14'}>
+              編集
+            </Button>
+          </Link>
+        </Box>
       </Box>
     </>
   );

@@ -41,7 +41,7 @@ class ShopController extends Controller
         $status = request('status');
 
         // レビューを取得
-        $reviews = Review::with('user', 'shopImages')->where('shop_id', $id)->orderBy('created_at', 'desc')->get();
+        $reviews = Review::with('user')->where('shop_id', $id)->orderBy('created_at', 'desc')->get();
         return Inertia::render('Shop/Detail', [
             'shop' => $shop,
             'reviews' => $reviews,
