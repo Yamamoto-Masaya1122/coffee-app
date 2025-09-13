@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Review;
 use App\Models\Shop;
 use App\Http\Requests\StoreShopRequest;
+use App\Models\ShopImage;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
@@ -31,12 +32,13 @@ class ShopController extends Controller
 
     public function detail($id)
     {
+        $shop = Shop::with('shopImages')->find($id);
+
         // クエリパラメータからステータスを取得
         $status = request('status');
 
-        $shop = Shop::find($id);
         // レビューを取得
-        $reviews = Review::with('user')->where('shop_id', $id)->orderBy('created_at', 'desc')->get();
+        $reviews = Review::with('user', 'shopImages')->where('shop_id', $id)->orderBy('created_at', 'desc')->get();
         return Inertia::render('Shop/Detail', [
             'shop' => $shop,
             'reviews' => $reviews,
@@ -75,19 +77,20 @@ class ShopController extends Controller
                     $random = Random::generate(16);
                     // 画像の名前を生成
                     $fileName = $shop->image = $shop->id . '_' . $random . '.' . $extension;
-                    $shop->saveImage([
+                    $shopImageModel = new ShopImage();
+                    $shopImageModel->saveImage([
                         'shop_id' => $shop->id,
                         'file_name' => $fileName,
                         'file_path' => 'storage/shop_images/' . $fileName,
                         'file_type' => $image->getClientMimeType(),
                         'file_size' => $image->getSize(),
-                        'file_exten' => $extension,
-                        'file_mine' => $image->getClientMimeType(),
+                        'file_extension' => $extension,
+                        'file_mime' => $image->getClientMimeType(),
                         'file_original_name' => $image->getClientOriginalName(),
                         'file_original_path' => $image->getPathname(),
                     ]);
                     // 画像の保存
-                    $image->storeAs('public/shop_images', $fileName);
+                    $image->storeAs('shop_images', $fileName);
                 }
             }
             DB::commit();

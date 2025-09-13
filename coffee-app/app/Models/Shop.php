@@ -22,6 +22,11 @@ class Shop extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function shopImages()
+    {
+        return $this->hasMany(ShopImage::class);
+    }
+
     public function saveShop($request, $user)
     {
         $this->name = $request->name;
