@@ -26,6 +26,9 @@ Route::get('/', [ShopController::class, 'index'])->name('shop.index');
 Route::middleware('auth')->group(function () {
     Route::get('/shop/create', [ShopController::class, 'create'])->name('shop.create');
     Route::post('/shop/store', [ShopController::class, 'store'])->name('shop.store');
+    Route::get('/shop/edit/{id}', [ShopController::class, 'edit'])->name('shop.edit');
+    Route::post('/shop/update', [ShopController::class, 'update'])->name('shop.update');
+    Route::delete('/shop/delete/{id}', [ShopController::class, 'destroy'])->name('shop.destroy');
 });
 Route::get('/shop/{id}', [ShopController::class, 'detail'])->name('shop.detail');
 

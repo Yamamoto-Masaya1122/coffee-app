@@ -7,9 +7,10 @@ import {
   Button,
   Link,
   useToast,
+  HStack,
 } from '@chakra-ui/react';
 import ReviewList from '@/Components/Organisms/ReviewList';
-import { SmallAddIcon } from '@chakra-ui/icons';
+import { SmallAddIcon, EditIcon } from '@chakra-ui/icons';
 import { useEffect } from 'react';
 const Detail = (props) => {
   const toast = useToast();
@@ -39,9 +40,16 @@ const Detail = (props) => {
   return (
     <>
       <Box p={4}>
-        <Heading as="h2" size={'xl'} mb={4}>
-          {props.shop.name}
-        </Heading>
+        <HStack>
+          <Heading as="h2" size={'xl'} mb={4}>
+            {props.shop.name}
+          </Heading>
+          <Link href={route('shop.edit', { id: props.shop.id })} mb={4}>
+            <Button p={2} borderRadius={4} bg={'gray.200'}>
+              <EditIcon />
+            </Button>
+          </Link>
+        </HStack>
         {props.shop.shop_images ? (
           props.shop.shop_images.map((image) => (
             <Image

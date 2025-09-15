@@ -27,17 +27,17 @@ class ShopImage extends Model
         return $this->belongsTo(Shop::class);
     }
 
-    public function saveImage($data)
+    public function saveImage($image, $shop_id, $file_name, $file_extension)
     {
-        $this->shop_id = $data['shop_id'];
-        $this->file_name = $data['file_name'];
-        $this->file_path = $data['file_path'];
-        $this->file_type = $data['file_type'];
-        $this->file_size = $data['file_size'];
-        $this->file_extension = $data['file_extension'];
-        $this->file_mime = $data['file_mime'];
-        $this->file_original_name = $data['file_original_name'];
-        $this->file_original_path = $data['file_original_path'];
+        $this->shop_id = $shop_id;
+        $this->file_name = $file_name;
+        $this->file_path = 'storage/shop_images/' . $file_name;
+        $this->file_type = $image->getClientMimeType();
+        $this->file_size = $image->getSize();
+        $this->file_extension = $file_extension;
+        $this->file_mime = $image->getClientMimeType();
+        $this->file_original_name = $image->getClientOriginalName();
+        $this->file_original_path = $image->getPathname();
         $this->save();
         return $this;
     }

@@ -38,4 +38,17 @@ class Shop extends Model
 
         return $this;
     }
+
+    public function updateShop($request, $user)
+    {
+        $shop = $this->find($request->id);
+        $shop->id = $request->id;
+        $shop->name = $request->name;
+        $shop->location = $request->location;
+        $shop->description = $request->description;
+        $shop->updated_by = $user->id;
+        $shop->save();
+
+        return $shop;
+    }
 }
