@@ -122,17 +122,33 @@ class ShopController extends Controller
             $user = Auth::user();
             $shop = $shopModel->updateShop($request, $user);
             //既存の画像の削除
-            if ($request->existingImages) {
-                $existingImages = $request->existingImages;
-                $existingImageIds = array_column($existingImages, 'id');
-                $arrayShopImageIds = DB::table('shop_images')->whereIn('shop_id', $shop->id)->get(['id'])->toArray();
-                $shopImageIds = array_column($arrayShopImageIds, 'id');
-                // IDを比較する
-                $deleteImageIds = array_diff($shopImageIds, $existingImageIds);
-                if (count($deleteImageIds) > 0) {
-                    // 削除する画像のIDを指定して削除
-                    DB::table('shop_images')->whereIn('id', $deleteImageIds)->delete();
+            $existingImages = $request->input('existingImages', []);
+            if (!is_array($existingImages)) {
+                $existingImages = [];
+            }
+
+            // 既存として残すIDの配列を作成
+            $existingImageIds = array_values(array_filter(array_map(function ($row) {
+                if (is_array($row) && isset($row['id'])) {
+                    return (int) $row['id'];
                 }
+                if (is_object($row) && isset($row->id)) {
+                    return (int) $row->id;
+                }
+                return null;
+            }, $existingImages), fn($v) => $v !== null));
+
+            // 店舗に紐づく全画像IDを取得
+            $shopImageIds = ShopImage::where('shop_id', $shop->id)
+                ->pluck('id')
+                ->toArray();
+
+            // 差分（削除対象ID）を算出
+            $deleteImageIds = array_values(array_diff($shopImageIds, $existingImageIds));
+
+            if (!empty($deleteImageIds)) {
+                // 削除する画像のIDを指定して削除
+                ShopImage::whereIn('id', $deleteImageIds)->delete();
             }
             //新規画像の保存
             if ($request->file('images')) {

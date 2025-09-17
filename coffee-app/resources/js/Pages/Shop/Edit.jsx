@@ -56,17 +56,16 @@ const Edit = (props) => {
 
   const handleDelete = (e) => {
     e.preventDefault();
-    router.delete(route('shop.destroy', { id: data.id }));
+    router.post(route('shop.update'), data, { forceFormData: true });
   };
 
   const handleRemoveImage = (index, type) => {
     if (type === 'existing') {
-      const images = data.existingImages;
-      // index番目の画像を削除し、その後の要素を詰める
+      const images = [...data.existingImages];
       images.splice(index, 1);
       setData('existingImages', images);
     } else if (type === 'new') {
-      const images = data.images;
+      const images = [...data.images];
       images.splice(index, 1);
       setData('images', images);
       // getElementByIdでinput要素を複数取得する
