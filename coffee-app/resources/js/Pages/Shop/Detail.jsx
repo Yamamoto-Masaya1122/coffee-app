@@ -34,6 +34,15 @@ const Detail = (props) => {
         duration: 9000,
         isClosable: true,
       });
+    } else if (props.status === 'shop-updated') {
+      toast({
+        position: 'top',
+        title: '店舗情報を更新しました。',
+        description: '店舗情報の更新が完了しました。',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
     }
   }, [props.status]);
 
